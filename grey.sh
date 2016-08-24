@@ -81,7 +81,7 @@ Options;
 -u  --- update the script db
 -s  --- search for an nse script by keyword
 -p  --- parse an nse by the filename (such as the one you got from searching with -s)
-
+-l  --- list the contents of your nse directory
 Examples;
 bash grey.sh
 bash grey.sh -u
@@ -1153,7 +1153,7 @@ done
 #
 #                                OPTIONZ
 ########################################################################
-while getopts "s:p:hu" OPTION
+while getopts "s:p:hlu" OPTION
 do
 
      case $OPTION in
@@ -1170,6 +1170,10 @@ do
                V_PARSE=$OPTARG
                ;;
                
+          l)
+               V_LIST="True"
+               ;;
+               
           h)
                f_help
                ;;
@@ -1183,6 +1187,7 @@ done
 ########################################################################
 if   [ "$UPDATE" == "True" ] ; then f_header$X ; nmap --script-updatedb ; echo $YELLOW"Script DB Updated!!" ; fi
 if   [ ! -z "$V_SEARCH" ]; then ls $DIR | grep $V_SEARCH ; fi
+if   [ "$V_LIST" == "True" ] ; then ls $DIR ; fi
 if   [ ! -z "$V_PARSE" ]; then 
      echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
      echo -e $GRN"Parsing $V_PARSE\r\n"
