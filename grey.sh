@@ -606,6 +606,8 @@ echo $WHITE""
                     wget http://www.computec.ch/projekte/vulscan/download/nmap_nse_vulscan-2.0.tar.gz &>/dev/null 
                     tar -xzf nmap_nse_vulscan-2.0.tar.gz &>/dev/null
                     rm -rf nmap_nse_vulscan-2.0.tar.gz
+                    rm -rf $DIR/vulscan/scipvuldb.csv
+                    wget http://www.computec.ch/projekte/vulscan/download/scipvuldb.csv -O $DIR/vulscan/scipvuldb.csv
                     ls $DIR/vulscan
                          if   [ -d $DIR/vulscan ]; then
                               echo -e $GRN"Vulscan Is Installed!!\r\n"
@@ -921,7 +923,7 @@ echo -e $WHITE$DIR
 echo $WHITE""
 PS3=' Choose your poison..: '
 echo $YELLOW
-options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)" "Bruteforcers" $WHITE "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "CVS" "DHCP & DNS" "Domcon" "DRDA" "Firewalk" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "Identd" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,etc)" "iPV6" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Membase" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "NAT-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SQL (ALL)" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV"  "MiSC" "Back" $GRN)
+options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)" "Bruteforcers" $WHITE "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "CVS" "DHCP & DNS" "Domcon" "DRDA" "Firewalk" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "Identd" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,etc)" "iPV6" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Membase" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "Nat-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SQL (ALL)" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV"  "MiSC" "Back" $GRN)
 echo -e $GRN "\r\n"
 select opt in "${options[@]}"
 do
