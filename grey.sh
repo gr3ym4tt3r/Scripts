@@ -79,9 +79,15 @@ grey.sh <no input required for menu>
 Options;
 -h  --- this help information
 -u  --- update the script db
+-s  --- search for an nse script by keyword
+-p  --- parse an nse by the filename (such as the one you got from searching with -s)
 
 Examples;
 bash grey.sh
+bash grey.sh -u
+bash grey.sh -s snmp
+bash grey.sh -p snmp-info.nse
+bash grey.sh -h
 "
 }
 #
@@ -915,7 +921,7 @@ echo -e $WHITE$DIR
 echo $WHITE""
 PS3=' Choose your poison..: '
 echo $YELLOW
-options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)" "Bruteforcers" $CYAN "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "CVS" "DHCP & DNS" "Domcon" "DRDA" "Firewalk" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "Identd" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,etc)" "iPV6" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Membase" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "NAT-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SQL (ALL)" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV"  "MiSC" "Back" $GRN)
+options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)" "Bruteforcers" $WHITE "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "CVS" "DHCP & DNS" "Domcon" "DRDA" "Firewalk" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "Identd" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,etc)" "iPV6" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Membase" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "NAT-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SQL (ALL)" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV"  "MiSC" "Back" $GRN)
 echo -e $GRN "\r\n"
 select opt in "${options[@]}"
 do
@@ -1147,7 +1153,7 @@ done
 #
 #                                OPTIONZ
 ########################################################################
-while getopts "h:u" OPTION
+while getopts "s:p:hu" OPTION
 do
 
      case $OPTION in
@@ -1156,6 +1162,14 @@ do
                UPDATE="True"
                ;;
           
+          s)
+               V_SEARCH=$OPTARG
+               ;;
+               
+          p)
+               V_PARSE=$OPTARG
+               ;;
+               
           h)
                f_help
                ;;
@@ -1168,10 +1182,30 @@ done
 #                                 Run The Script
 ########################################################################
 if   [ "$UPDATE" == "True" ] ; then f_header$X ; nmap --script-updatedb ; echo $YELLOW"Script DB Updated!!" ; fi
+if   [ ! -z "$V_SEARCH" ]; then ls $DIR | grep $V_SEARCH ; fi
+if   [ ! -z "$V_PARSE" ]; then 
+     echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+     echo -e $GRN"Parsing $V_PARSE\r\n"
+     echo -e $YELLOW "\r\n"
+     cat $DIR$V_PARSE | sed -n '/description/,/]]/p' | sed 's/\]\]/\r\n/' | sed 's/\[\[/\r\n/' | sed '/description/{d;}'
+     echo -e $WHITE "\r\n"
+     cat $DIR$V_PARSE | sed -n '/usage/,/output/p' | grep -v "@output" | sed 's/$/\r\n/' |  sed 's/\-\-//'
+     echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+fi
 if   [ $# -eq 0 ]; then 
      f_header$X
      f_menu
-else
-     f_help
 fi
-
+#elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+#        echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+#        echo -e "You picked $opt.nse which is file $REPLY\r\n"
+#        break
+#     fi
+#done
+#echo -e $GRN "$opt.nse\r\n"
+#echo $YELLOW
+#cat $LOC$opt.nse| sed -n '/description/,/]]/p' | sed 's/\]\]/\r\n/' | sed 's/\[\[/\r\n/' | sed '/description/{d;}'
+#echo $WHITE
+#cat $LOC$opt.nse | sed -n '/usage/,/output/p' | grep -v "@output" | sed 's/$/\r\n/' |  sed 's/\-\-//'
+#echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+#f_cont
