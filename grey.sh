@@ -71,17 +71,17 @@ echo $YELLOW""
 f_help() {
 echo $WHITE""
 f_header$X
-echo "
+echo $YELLOW"This is just an NSE helper script. I created it as somewhat of an indexer for nmap scripts. You can choose scripts by category, and it will list descriptions and usage options. All the CVE/VULN scripts have their own menu (option 3) with service submenu's to sort them" 
+echo $WHITE"
 Usage;
 grey.sh <no input required for menu> 
 
 Options;
 -h  --- this help information
--t  --- target
+-u  --- update the script db
 
 Examples;
 bash grey.sh
-bash grey.sh -t <target IP> 
 "
 }
 #
@@ -709,7 +709,164 @@ f_cont
 }
 #
 #
-f_vulnmenu() {
+f_misc() {
+echo $YELLOW""
+PS4='Select A Script: '
+options=("acarsd-info" "allseeingeye-info" "amqp-info" "asn-query" "backorifice-info" "bacnet-info" "bittorrent-discovery" "bjnp-discover" "cccam-version" "clamav-exec" "daap-get-library" "db2-das-info" "dict-info" "distcc-cve2004-2687" "docker-version" "domino-enum-users" "duplicates" "eap-info" "enip-info" "epmd-info" "eppc-enum-processes" "fcrdns" "flume-master-info" "freelancer-info" "ganglia-info" "giop-info" "gkrellm-info" "gopher-ls" "hnap-info" "icap-info" "ike-version" "isns-info" "lexmark-config" "lltd-discovery" "maxdb-info" "mcafee-epo-agent" "modbus-discover" "murmur-version" "nrpe-enum" "omron-info" "openlookup-info" "ovs-agent-version" "pjl-ready-message" "qconn-exec" "riak-http-info" "s7-info" "stuxnet-detect" "supermicro-ipmi-conf" "teamspeak2-version" "ventrilo-info" "versant-info" "voldemort-info" "vuze-dht-info" "weblogic-t3-info")
+select opt in "${options[@]}"
+do
+echo $WHITE""
+     case $opt in
+          "acarsd-info") ;;
+          "allseeingeye-info") ;;
+          "amqp-info") ;; 
+          "asn-query") ;; 
+          "backorifice-info") ;; 
+          "bacnet-info") ;; 
+          "bittorrent-discovery") ;; 
+          "bjnp-discover") ;; 
+          "cccam-version") ;;
+          "clamav-exec") ;;
+          "daap-get-library") ;; 
+          "db2-das-info") ;;
+          "dict-info") ;;
+          "distcc-cve2004-2687") ;; 
+          "docker-version") ;;
+          "domino-enum-users") ;; 
+          "duplicates") ;;
+          "eap-info") ;;
+          "enip-info") ;;
+          "epmd-info") ;;
+          "eppc-enum-processes") ;; 
+          "fcrdns") ;;
+          "flume-master-info") ;; 
+          "freelancer-info") ;;
+          "ganglia-info") ;;
+          "giop-info") ;;
+          "gkrellm-info") ;;
+          "gopher-ls") ;;
+          "hnap-info") ;; 
+          "icap-info") ;; 
+          "ike-version") ;; 
+          "isns-info") ;;
+          "lexmark-config") ;; 
+          "lltd-discovery") ;;
+          "maxdb-info") ;;
+          "mcafee-epo-agent") ;; 
+          "modbus-discover") ;;
+          "murmur-version") ;;
+          "nrpe-enum") ;;
+          "omron-info") ;;
+          "openlookup-info") ;;
+          "ovs-agent-version") ;; 
+          "pjl-ready-message") ;;
+          "qconn-exec") ;;
+          "riak-http-info") ;; 
+          "s7-info") ;;
+          "stuxnet-detect") ;; 
+          "supermicro-ipmi-conf") ;; 
+          "teamspeak2-version") ;;
+          "ventrilo-info") ;;
+          "versant-info") ;;
+          "voldemort-info") ;; 
+          "vuze-dht-info") ;;
+          "weblogic-t3-info") ;;
+          "Back")
+               f_cont ;;
+          *) echo invalid option
+     esac
+     if (( REPLY == 1 + ${#options[@]} )) ; then
+        exit
+        
+     elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+        echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+        echo -e "You picked $opt.nse which is file $REPLY\r\n"
+        break
+     fi
+done
+echo -e $GRN "$opt.nse\r\n"
+echo $YELLOW
+cat $LOC$opt.nse| sed -n '/description/,/]]/p' | sed 's/\]\]/\r\n/' | sed 's/\[\[/\r\n/' | sed '/description/{d;}'
+echo $WHITE
+cat $LOC$opt.nse | sed -n '/usage/,/output/p' | grep -v "@output" | sed 's/$/\r\n/' |  sed 's/\-\-//'
+echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+f_cont
+}
+#
+#
+f_tools() {
+echo $YELLOW""
+PS4='Choose your poison..: '
+options=("address-info" "creds-summary" "daytime" "finger" "gpsd-info" "hddtemp-info" "ipidseq" "krb5-enum-users" "llmnr-resolve" "memcached-info" "mrinfo" "mtrace" "nbstat" "nntp-ntlm-info" "nping-brute" "p2p-conficker" "path-mtu" "pptp-version" "qscan" "resolveall" "reverse-index" "rfc868-time" "rusers" "servicetags" "shodan-api" "skypev2-version" "sniffer-detect" "sstp-discover" "tls-nextprotoneg" "tor-consensus-checker" "traceroute-geolocation" "unittest" "unusual-port" "upnp-info" "url-snarf" "wdb-version" "whois-domain" "whois-ip" "wsdd-discover" "x11-access" "xdmcp-discover" "Back")
+select opt in "${options[@]}"
+do
+echo $WHITE""
+     case $opt in
+          "address-info") ;;
+          "creds-summary") ;;
+          "daytime") ;;
+          "finger") ;;
+          "gpsd-info") ;; 
+          "hddtemp-info") ;; 
+          "ipidseq") ;;
+          "krb5-enum-users") ;;
+          "llmnr-resolve") ;;
+          "memcached-info") ;; 
+          "mrinfo") ;;
+          "mtrace") ;;
+          "nbstat") ;;
+          "nntp-ntlm-info") ;;
+          "nping-brute") ;;
+          "p2p-conficker") ;;
+          "path-mtu") ;;
+          "pptp-version") ;;
+          "qscan") ;;
+          "resolveall") ;;
+          "reverse-index") ;;
+          "rfc868-time") ;;
+          "rusers") ;;
+          "servicetags") ;;
+          "shodan-api") ;;
+          "skypev2-version") ;;
+          "sniffer-detect") ;;
+          "sstp-discover") ;;
+          "tls-nextprotoneg") ;;
+          "tor-consensus-checker") ;;
+          "traceroute-geolocation") ;;
+          "unittest") ;;
+          "unusual-port") ;;
+          "upnp-info") ;;
+          "url-snarf") ;;
+          "wdb-version") ;;
+          "whois-domain") ;;
+          "whois-ip") ;;
+          "wsdd-discover") ;;
+          "x11-access") ;;
+          "xdmcp-discover") ;;
+          "Back")
+               f_cont ;;
+          *) echo invalid option
+     esac
+     if (( REPLY == 1 + ${#options[@]} )) ; then
+        exit
+        
+     elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+        echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+        echo -e "You picked $opt.nse which is file $REPLY\r\n"
+        break
+     fi
+done
+echo -e $GRN "$opt.nse\r\n"
+echo $YELLOW
+cat $LOC$opt.nse| sed -n '/description/,/]]/p' | sed 's/\]\]/\r\n/' | sed 's/\[\[/\r\n/' | sed '/description/{d;}'
+echo $WHITE
+cat $LOC$opt.nse | sed -n '/usage/,/output/p' | grep -v "@output" | sed 's/$/\r\n/' |  sed 's/\-\-//'
+echo -e $RED"################################## $WHITE -- Details & Usage -- $RED#################################\r\n"
+f_cont
+}
+#
+#
+f_vulnmenu(){
 echo $YELLOW""
 PS4='Choose your poison..: '
 options=("AFP" "FTP" "HTTP" "MySQL" "RDP" "RMI" "SMB/SAMBA" "SMTP" "Back")
@@ -744,7 +901,7 @@ echo $WHITE""
                VBASE="smtp"
                f_vuln ;;          
           "Back")
-               break ;;
+               f_cont ;;
           *) echo invalid option
      esac
 done
@@ -758,7 +915,8 @@ echo -e $WHITE$DIR
 echo $WHITE""
 PS3=' Choose your poison..: '
 echo $YELLOW
-options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)"$CYAN "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "DHCP & DNS" "DRDA" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,ipv6,etc)" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "NAT-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV" "TOOLS (Whois,Finger,etc)" "MiSC" "Back"$GRN)
+options=("OPTiONS" "VULSCAN!!!!" "CVE-Vuln-Scans" "Tools (Whois,Finger,etc)" "Bruteforcers" $CYAN "AFP (Apple Filing Protocol)" "AJP (Apache JServ)" "Banner Grabbing" "Bitcoin" "Broadcast" "Cassandra" "Citrix" "CouchDB" "Cups" "CVS" "DHCP & DNS" "Domcon" "DRDA" "Firewalk" "FTP" "Hadoop" "HBase" "HostMap" "HTTP" "IAX2" "Identd" "iMAP" "Informix" "IP Scripts (Forwarding,Geolocation,etc)" "iPV6" "iRC" "iSCSI" "JDWP (Java Remote Debugging)" "KNX" "LDAP" "Membase" "Metasploit" "MMouse" "MongoDB" "MS-Sql" "MySQL" "NAT-PMP" "NCP" "NDMP" "Nessus" "Netbus" "NTP" "OMP2" "Oracle" "Pop3" "Quake" "RDP & VNC" "Redis" "RMI" "RPC & NFS" "RSync" "RTSP" "Samba/SMB" "SiP" "SMTP" "SNMP" "Socks" "SQL (ALL)" "SSH" "SSL" "Stun" "Targets" "Telnet" "XMPP" "WEBDAV"  "MiSC" "Back" $GRN)
+echo -e $GRN "\r\n"
 select opt in "${options[@]}"
 do
 echo $WHITE""
@@ -770,11 +928,14 @@ echo $WHITE""
         "CVE-Vuln-Scans")
                f_vulnmenu ;;         
                   
-        "Tools (Whois,Finger,etc)") ;;
+        "Tools (Whois,Finger,etc)") 
+               f_tools ;;
 
         "VULSCAN!!!!")
                f_vulscan ;;
-                 
+        "Bruteforcers")
+               BASE="brute"
+               f_script_list ;;
         "AFP (Apple Filing Protocol)")
                BASE="afp-"
                f_novuln ;;
@@ -802,13 +963,23 @@ echo $WHITE""
         "Cups")
                BASE="cups"
                f_script_list ;;
+        "CVS")
+               BASE="cvs"
+               f_script_list ;;
         "DHCP & DNS")
                BASE="dhcp"
                BASE2="dns"
                f_script_list2 ;;
+        "Domcon")
+               BASE="domcon"
+               f_script_list ;;
         "DRDA") 
                BASE="drda"
                f_script_list ;;
+        "Firewall")
+               BASE="firewalk"
+               BASE2="firewall"
+               f_script_list2 ;;
         "FTP") 
                BASE="ftp"
                f_novuln ;;
@@ -827,6 +998,9 @@ echo $WHITE""
         "IAX2")
                BASE="iax2"
                f_script_list ;;
+        "Identd")
+               BASE="auth-"
+               f_script_list ;;
         "iMAP")
                BASE="imap"
                f_script_list ;;
@@ -834,7 +1008,10 @@ echo $WHITE""
                BASE="informix"
                f_script_list ;;
         "IP Scripts (Forwarding,Geolocating,IPv6,etc")
-               BASE="ip"
+               BASE="ip-"
+               f_script_list ;;
+        "iPV6")
+               BASE="ipv6"
                f_script_list ;; 
         "iRC")
                BASE="irc"
@@ -850,7 +1027,10 @@ echo $WHITE""
                f_script_list ;;
         "LDAP")
                BASE="ldap"
-               f_script ;; 
+               f_script_list ;; 
+        "Membase")
+               BASE="membase"
+               f_script_list ;;
         "Metasploit")
                BASE="metasploit"
                f_script_list ;;
@@ -932,6 +1112,9 @@ echo $WHITE""
         "Socks") 
                BASE="socks"
                f_script_list ;;
+        "SQL (ALL)")
+               BASE="sql"
+               f_script_list ;;
         "SSH") 
                BASE="ssh"
                f_script_list ;;
@@ -953,7 +1136,8 @@ echo $WHITE""
         "WEBDAV")
                BASE="webdav"
                f_script_list ;;
-        "MiSC") ;;
+        "MiSC") 
+               f_misc ;;
         "Back")
                f_cont ;;
         *) echo invalid option;;
@@ -961,7 +1145,32 @@ echo $WHITE""
 done
 }
 #
+#                                OPTIONZ
+########################################################################
+while getopts "h:u" OPTION
+do
+
+     case $OPTION in
+     
+          u)
+               UPDATE="True"
+               ;;
+          
+          h)
+               f_help
+               ;;
+          ?)
+               f_help
+               ;;
+     esac
+done
+#
 #                                 Run The Script
 ########################################################################
-f_header$X
-f_menu
+if   [ "$UPDATE" == "True" ] ; then f_header$X ; nmap --script-updatedb ; echo $YELLOW"Script DB Updated!!" ; fi
+if   [ $# -eq 0 ]; then 
+     f_header$X
+     f_menu
+else
+     f_help
+fi
